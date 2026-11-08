@@ -1,18 +1,20 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { Test } from '@nestjs/testing';
+import { describe, expect, it } from 'vitest';
+import { AuthGuard } from '../auth/auth.gard.js';
 import { TasksController } from './tasks.controller.js';
+import { TasksService } from './tasks.service.js';
+import { NotFoundException } from '@nestjs/common';
 
 describe('TasksController', () => {
-  let controller: TasksController;
-
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+  it('should be defined', async () => {
+    const moduleRef = await Test.createTestingModule({
       controllers: [TasksController],
-    }).compile();
+      providers: [{ provide: TasksService, useValue: {} }],
+    })
+      .overrideGuard(AuthGuard)
+      .useValue({ canActivate: () => true })
+      .compile();
 
-    controller = module.get<TasksController>(TasksController);
-  });
-
-  it('should be defined', () => {
-    expect(controller).toBeDefined();
+    expect(moduleRef.get(TasksController)).toBeDefined();
   });
 });
