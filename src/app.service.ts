@@ -11,7 +11,7 @@ export class AppService {
       message: `Welcome to MyTasks, ${name}!`,
       taskCount: tasks.length,
       tasks: tasks,
-      severTime: new Date().toISOString(),
+      serverTime: new Date().toISOString(),
     };
   }
 }
